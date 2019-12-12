@@ -1,11 +1,10 @@
 class Matrix {
     
     constructor(f,c){
-
         this._f = f;
         this._c = c;
         this._array = [];
-        
+        this._mIdentidad;
     };
     
     //retorna una matris llena de elementos aleatorios 
@@ -30,6 +29,7 @@ class Matrix {
     get c (){return this._c};
     get f (){return this._f};
 
+    //retorna la matriz 
     getMatrix(){
         return this._array;
     }
@@ -49,9 +49,21 @@ class Matrix {
         }
         return columna;
     };
-    isIdentity(){
-        
+    isIdentity(arr){
+              
+        let arreglo = arr;
         if(this.IsSquare()){
+            for(let i = 0; i<this._f;i++){
+                if(arreglo[i][i] != 1){
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            return false;
+        }
+        
+        /*if(this.IsSquare()){
             let diaPrinicpal = new Array(this._c);
             for(let i = 0; i<this._c; i++){
                 if(this._array[i][i] == 1){
@@ -66,8 +78,29 @@ class Matrix {
         }
         else{
             return false;
+        }*/
+
+    }
+
+    initIdentity(){
+
+        let mIdentidad = new Array(this._f);
+        for(let i = 0;i<this._f;i++){
+            mIdentidad[i] = new Array(this._c);
         }
-        
+
+        for(let f = 0;f<this._f;f++){
+            for(let c = 0;c<this._c;c++){
+                if(f==c){
+                    mIdentidad[f][c] = 1;
+                }else{
+                    mIdentidad[f][c] = 0;
+                }
+            }
+        }
+
+        this._mIdentidad = mIdentidad;
+        return mIdentidad;
 
     }
 
@@ -83,17 +116,29 @@ class Matrix {
     IsSquare(){
 
         if(this._c == this._f ){
-            return "Is Square";
+            return true;
         }
         else{
-            return "Is not square";
+            return false;
         }
     };
 }
-let matris = new Matrix(2,2);
-console.log(matris.initRandom());
-console.log(matris.getCol(0));
-console.log(matris.getRow(1));
-console.log(matris.IsSquare());
-console.log(matris.getMatrix());
-console.log(matris.isIdentity());
+let matris = new Matrix(8,8);
+console.log("----------Matriz 1--------");
+matris.initRandom();
+console.log("Is Square: " + matris.IsSquare());
+console.log("Matrisz Identidad\n")
+
+console.log(matris.initIdentity());
+console.log("\nIs identity:" + matris.isIdentity(matris._mIdentidad));
+
+
+console.log("-------Matriz 2---------");
+let matris2 = new Matrix(6,4);
+matris2.initRandom();
+
+console.log("\nIs square: " + matris2.IsSquare());
+console.log("Matrisz Identidad \n");
+console.log(matris2.initIdentity());
+console.log("\nIs identity: "+ matris.isIdentity(matris._mIdentidad));
+
